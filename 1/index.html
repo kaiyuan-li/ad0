@@ -1,0 +1,80 @@
+<html>
+
+<head>
+
+</head>
+
+<body>
+    <div id = 'app'>
+        <ul>
+            <li v-for="(member,index) in members">
+                <span>{{member.name}}</span>
+                <button @click="removeName(index)">remove</button>
+                <button @click="changeGender(index)">change gender</button>
+            </li>
+        </ul>
+
+        <ul>
+            <h4>Guys</h4>
+            <li v-for="member in maleMembers">
+                {{member.name}}
+            </li>
+        </ul>
+
+        <ul>
+            <h4>Girls</h4>
+            <li v-for="member in femaleMembers">
+                {{member.name}}
+            </li>
+        </ul>
+        <input type="text" v-model = 'newName'>
+        <p :title="title" @click="addName">click to add new name {{newName}}</p>
+        <button :disabled='btnState'>state button</button>
+        <button @click="toggleBtnState"></button>
+    </div>
+    <script src = 'https://unpkg.com/vue@2.2.6'></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                newName: "",
+                members: [
+                    {name:"Ethan",gender:"male"},
+                    {name:"Kevin",gender:"male"},
+                    {name:"Qian",gender:"female"},
+                    {name:"Yun",gender:"female"},
+                    {name:"Suoqing",gender:"male"},
+                    {name:"Saimei",gender:"female"},
+                    {name:"Yuebing",gender:"male"}
+                ],
+                title: "this is the vue title",
+                btnState: false
+            },
+            methods: {
+                addName () {
+                    this.names.push(this.newName)
+                },
+                toggleBtnState () {
+                    this.btnState = !this.btnState
+                },
+                removeName (index) {
+                    this.members.splice(index,1)
+                },
+                changeGender (index) {
+                    this.members[index].gender = this.members[index].gender ==="male"?"female":"male"
+                }
+            },
+            computed: {
+                maleMembers () {
+                    return this.members.filter (member => member.gender==="male")
+                },
+                femaleMembers () {
+                    return this.members.filter (member => member.gender==="female")
+                }
+            }
+        })
+    </script>
+    <script src="main.js"></script>
+</body>
+
+</html>
