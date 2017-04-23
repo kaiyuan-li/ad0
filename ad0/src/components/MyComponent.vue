@@ -1,5 +1,5 @@
 <template>
-    <div @mousedown="mouseDownFcn">
+    <div @mousedown="mouseDownFcn" @click="handleComponentSelected">
         <button v-if="componentData.componentType == 'button'" :style="componentData.style">
             {{componentData.componentType}}
         </button>
@@ -8,23 +8,26 @@
 </template>
 
 <script>
+import store from '../store'
 export default {
   name: 'myComponent',
-  props: ['componentData'],
+  props: ['componentData', 'currentComponentData'],
   methods: {
+    handleComponentSelected () {
+      store.commit('UPDATE_COMPONENT_NAME', this.componentData.componentID)
+    },
     mouseDownFcn (event) {
-      this.mousePosition = []
-      this.mousePosition[0] = event.offsetX
-      this.mousePosition[1] = event.offsetY
-      event.currentTarget.parentNode.addEventListener('mousemove', this.mouseMoveFcn)
-      event.currentTarget.parentNode.addEventListener('mouseup', this.mouseUpFcn, 'once')
+      var mousePosition = [event.offsetX, event.offsetY]
+      var mouseMoveHandler = this.mouseMoveFcn.bind(this, mousePosition)
+      event.currentTarget.parentNode.addEventListener('mousemove', mouseMoveHandler)
+      event.currentTarget.parentNode.addEventListener('mouseup', this.mouseUpFcn.bind(this, mouseMoveHandler), 'once')
     },
-    mouseMoveFcn (event) {
-      this.componentData.style.left = event.pageX - this.mousePosition[0] - event.currentTarget.offsetLeft + 'px'
-      this.componentData.style.top = event.pageY - this.mousePosition[1] - event.currentTarget.offsetTop + 'px'
+    mouseMoveFcn (mousePosition, event) {
+      this.componentData.style.left = event.pageX - mousePosition[0] - event.currentTarget.offsetLeft + 'px'
+      this.componentData.style.top = event.pageY - mousePosition[1] - event.currentTarget.offsetTop + 'px'
     },
-    mouseUpFcn (event) {
-      event.currentTarget.removeEventListener('mousemove', this.mouseMoveFcn)
+    mouseUpFcn (mouseMoveHandler) {
+      event.currentTarget.removeEventListener('mousemove', mouseMoveHandler)
     }
   }
 }
