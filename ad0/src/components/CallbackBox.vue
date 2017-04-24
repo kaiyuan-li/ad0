@@ -6,7 +6,7 @@
             <p>
             <strong>{{currentComponentData.componentID}}</strong>
             <br>
-            <textarea cols=100 rows=20 v-model="currentComponentData.callback">
+            <textarea cols=50 rows=5 v-model="currentComponentData.callback">
             </textarea>
             </p>
         </div>

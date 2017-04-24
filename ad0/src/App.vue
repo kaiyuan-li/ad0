@@ -1,13 +1,13 @@
 <template>
   <div id="app">
-  <div id="canvas">
-    <template v-for = "componentDataEntry in appModel">
-      <my-component :componentData="componentDataEntry" :currentComponentData="currentComponent"></my-component>
-    </template>
-    <button id="btn" @click="addButton">add</button>
-  </div>
-  <callback-box :currentComponentData="currentComponent"></callback-box>
-  <button id="executeCallbackButton" @click="executeCallback">run callback</button>
+    <div id="canvas">
+      <template v-for = "componentDataEntry in appModel">
+        <my-component :componentData="componentDataEntry" :currentComponentData="currentComponent"></my-component>
+      </template>
+      <button id="btn" @click="addButton">add</button>
+    </div>
+    <callback-box :currentComponentData="currentComponent"></callback-box>
+    <button id="executeCallbackButton" @click="executeCallback">run callback</button>
   </div>
 </template>
 
